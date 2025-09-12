@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.custom_exception.ResourceNotFoundException;
 import com.app.dao.UserDao;
 import com.app.dtos.ApiResponse;
-import com.app.dtos.UserAddDto;
-import com.app.dtos.UserResponseDto;
+import com.app.dtos.FacultyAddDto;
+import com.app.dtos.FacultyDto;
+import com.app.dtos.StudentAddDto;
+import com.app.dtos.StudentDto;
+import com.app.dtos.StudentUpdateDto;
 import com.app.entities.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -23,43 +27,61 @@ public class UserServiceImpl implements UserServiceInterface {
 	private final UserDao userDao;
 	private final ModelMapper mapper;
 	
+	
 	@Override
-	public ApiResponse addUser(UserAddDto dto) {
+	public ApiResponse addStudent(StudentAddDto dto) {
 		// TODO Auto-generated method stub
 		UserEntity entity = mapper.map(dto, UserEntity.class);
+		entity.setRole("STUDENT");
 		UserEntity userEntity = userDao.save(entity);
 		return new ApiResponse("User created with id"+userEntity.getId());
 	}
-
+	
 	@Override
-	public ApiResponse updateUser(Long userId, UserAddDto dto) {
-		// TODO Auto-generated method stub
-		UserEntity entity = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
-		mapper.map(dto, entity);
-		return new ApiResponse("user updated");
+	public List<StudentDto> getAllStudents(String role)
+	{
+		List<UserEntity> list = userDao.findByRole(role);
+		List<StudentDto> map = list.stream().map(item -> mapper.map(item, StudentDto.class)).toList();
+		return map;
 	}
 
 	@Override
-	public ApiResponse deleteUser(Long userId) {
+	public ApiResponse updateStudent(Long rollNumber, StudentUpdateDto dto) {
 		// TODO Auto-generated method stub
-		UserEntity entity = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
-		userDao.delete(entity);
-		return new ApiResponse("User deleted !!!!!");
+		UserEntity userEntity = userDao.findByRollNumber(rollNumber).orElseThrow(()->new ResourceNotFoundException("wrong roll number"));
+		mapper.map(dto, userEntity);
+		return new ApiResponse("student updated ");
 	}
 
 	@Override
-	public UserResponseDto getUserDetails(Long userId) {
+	public ApiResponse deleteStudent(Long userId) {
 		// TODO Auto-generated method stub
-		UserEntity user = userDao.findById(userId).orElseThrow(()->new ResourceNotFoundException("User Not Found"));
-		return mapper.map(user, UserResponseDto.class);
+		return null;
 	}
 
 	@Override
-	public List<UserResponseDto> getAllUsers() {
+	public StudentDto getStudentDetails(Long rollNumber) {
 		// TODO Auto-generated method stub
-			List<UserEntity> list = userDao.findAll();
-			
-		return list.stream().map(item -> mapper.map(item, UserResponseDto.class)).toList();
+		UserEntity entity = userDao.findByRollNumber(rollNumber).orElseThrow(()-> new ResourceNotFoundException("Wrong rollNumber"));
+		StudentDto studentDto = mapper.map(entity, StudentDto.class);
+		return studentDto;
+	}
+
+	@Override
+	public ApiResponse addFaculty(FacultyAddDto dto) {
+		// TODO Auto-generated method stub
+		UserEntity userEntity = mapper.map(dto, UserEntity.class);
+		userEntity.setRole("FACULTY");
+		userDao.save(userEntity);
+		return new ApiResponse("faculty added with id = "+userEntity.getId());
+	}
+
+	@Override
+	public List<FacultyDto> getAllFaculties(String role) {
+		// TODO Auto-generated method stub
+		List<UserEntity> list = userDao.findByRole(role);
+		List<FacultyDto> dtoList = list.stream().map(item->mapper.map(item, FacultyDto.class)).toList();
+		return dtoList;
 	}
 
 }

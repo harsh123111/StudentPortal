@@ -19,7 +19,7 @@ import com.app.service.CourseInterface;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/courses")
 @Validated
 @AllArgsConstructor
 public class CourseController {

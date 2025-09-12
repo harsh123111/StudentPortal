@@ -3,14 +3,24 @@ package com.app.service;
 import java.util.List;
 
 import com.app.dtos.ApiResponse;
-import com.app.dtos.UserAddDto;
-import com.app.dtos.UserResponseDto;
+import com.app.dtos.FacultyAddDto;
+import com.app.dtos.FacultyDto;
+import com.app.dtos.StudentAddDto;
+import com.app.dtos.StudentDto;
+import com.app.dtos.StudentUpdateDto;
 
 public interface UserServiceInterface {
 
-	ApiResponse addUser(UserAddDto dto);
-	ApiResponse updateUser(Long userId, UserAddDto dto);
-	ApiResponse deleteUser(Long userId);
-	UserResponseDto getUserDetails(Long userId);
-	List<UserResponseDto> getAllUsers();
+	
+	ApiResponse addStudent(StudentAddDto dto);
+	//update by roll
+	ApiResponse updateStudent(Long rollNumber, StudentUpdateDto dto);
+	ApiResponse deleteStudent(Long userId);
+	//findByRollNumber
+	StudentDto getStudentDetails(Long rollNumber);
+	List<StudentDto> getAllStudents(String role);
+	
+	ApiResponse addFaculty(FacultyAddDto dto);
+	List<FacultyDto> getAllFaculties(String role);
+	
 }
