@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>UserService</artifactId>
+	<artifactId>AttendanceService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UserService</name>
-	<description>UserService module of Student Portal</description>
+	<description>AttendanceService module of Student Portal</description>
 	<url/>
 	<licenses>
 		<license/>

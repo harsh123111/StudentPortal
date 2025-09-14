@@ -1,7 +1,6 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -82,6 +81,14 @@ public class UserServiceImpl implements UserServiceInterface {
 		List<UserEntity> list = userDao.findByRole(role);
 		List<FacultyDto> dtoList = list.stream().map(item->mapper.map(item, FacultyDto.class)).toList();
 		return dtoList;
+	}
+
+	@Override
+	public FacultyDto getFacultyDetails(Long facultyId) {
+		// TODO Auto-generated method stub
+		UserEntity userEntity = userDao.findById(facultyId).orElseThrow(()-> new ResourceNotFoundException("faculty not found"));
+		FacultyDto dto = mapper.map(userEntity, FacultyDto.class);
+		return dto;
 	}
 
 }

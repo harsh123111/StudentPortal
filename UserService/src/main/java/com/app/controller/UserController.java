@@ -46,9 +46,9 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/student/{rollNumber}")
-	public ResponseEntity<?> getUserDetails(@PathVariable Long rollNumber)
-	{
+		@GetMapping("/student/{rollNumber}")
+		public ResponseEntity<?> getUserDetails(@PathVariable Long rollNumber)
+		{
 		return ResponseEntity.ok(userService.getStudentDetails(rollNumber));
 	}
 
@@ -71,5 +71,12 @@ public class UserController {
 		if(allFaculties.isEmpty()) 
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		return ResponseEntity.ok(allFaculties);
+	}
+	
+	
+	@GetMapping("/faculties/{facultyId}")
+	public ResponseEntity<?> getFacultyDetail(@PathVariable Long facultyId)
+	{
+		return ResponseEntity.ok(userService.getFacultyDetails(facultyId));
 	}
 }

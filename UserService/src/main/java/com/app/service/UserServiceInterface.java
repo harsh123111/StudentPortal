@@ -22,5 +22,6 @@ public interface UserServiceInterface {
 	
 	ApiResponse addFaculty(FacultyAddDto dto);
 	List<FacultyDto> getAllFaculties(String role);
+	FacultyDto getFacultyDetails(Long facultyId);
 	
 }
